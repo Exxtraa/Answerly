@@ -5,7 +5,7 @@ import Answer from "../src/components/Answer";
 
 function App() {
   const [question, setQuestion] = useState("");
-  const [result, setResult] = useState(undefined);
+  const [result, setResult] = useState([]);
 
   const payload = {
     contents: [
@@ -26,9 +26,13 @@ function App() {
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim());
     console.log(dataString);
-    if(!question.trim()) return;
+    if (!question.trim()) return;
 
-    setResult(dataString);
+    setResult([
+      ...result,
+      { type: "q", text: question },
+      { type: "a", text: dataString },
+    ]);
     setQuestion("");
   };
 
@@ -39,13 +43,40 @@ function App() {
         <div className="container h-143 overflow-x-hidden">
           <div className="text-zinc-300">
             <ul>
-              {/* {result} */}
+              {result.map((item, index) => (
+                <div key={index+Math.random()} className={item.type=='q'?'flex justify-end':''}>
+                  {item.type == "q" ? (
+                    <li
+                      className="text-right p-1 border-8 bg-zinc-700 border-zinc-700 rounded-tl-3xl rounded-br-3xl w-fit rounded-bl-3xl "
+                      key={index + Math.random()}
+                    >
+                      <Answer ans={item.text} totalResult={1} index={index} type={item.type}/>
+                    </li>
+                  ) : (
+                    item.text.map((ansItem, ansIndex) => (
+                      <li
+                        key={ansIndex + Math.random()}
+                        className="text-left p-1"
+                      >
+                        <Answer
+                          ans={ansItem}
+                          totalResult={item.length}
+                          index={ansIndex}
+                          type={item.type}
+                        />
+                      </li>
+                    ))
+                  )}
+                </div>
+              ))}
+            </ul>
+            {/* <ul>
               {
                 result && result.map((item, index) => (
-                  <li className="text-left p-1" key={index}><Answer ans={item} totalResult={result.length} index={index}/></li>
+                  <li className="text-left p-1" key={index+Math.random()}><Answer ans={item} totalResult={result.length} index={index}/></li>
                 ))
                 } 
-            </ul>
+            </ul> */}
           </div>
         </div>
         <div className="bg-zinc-800 w-1/2 pr-9 text-white m-auto rounded-4xl border border-zinc-500 flex h-16">
