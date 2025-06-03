@@ -18,6 +18,8 @@ function App() {
 
   const askQuestion = async () => {
 
+    if(!question) return false;
+
     if (localStorage.getItem('history')) {
       let history = JSON.parse(localStorage.getItem('history'));
       history = [question,...history]
@@ -51,6 +53,12 @@ function App() {
   const clearHistory = () => {
     localStorage.clear();
     setRecentHistory('')
+  }
+
+  const isEnter=()=>{
+    if(event.key==='Enter'){
+      askQuestion()
+    }
   }
 
   return (
@@ -120,6 +128,7 @@ function App() {
           <input
             type="text"
             value={question}
+            onKeyDown={isEnter}
             onChange={(e) => setQuestion(e.target.value)}
             className="w-full h-full p-8 outline-none"
             placeholder="What's your mood today"
