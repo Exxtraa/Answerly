@@ -9,14 +9,15 @@ function App() {
   const [recentHistory, setRecentHistory] = useState(
     JSON.parse(localStorage.getItem("history"))
   );
-  const [selectedHistory, setSelectedHistory] = useState("");
+  const [selectedHistory, setSelectedHistory] = useState('');
 
   const askQuestion = async () => {
+
     if (!question && !selectedHistory) {
       return false;
     }
 
-    if (question) {
+    if (question){
       if (localStorage.getItem("history")) {
         let history = JSON.parse(localStorage.getItem("history"));
         history = [question, ...history];
@@ -47,13 +48,8 @@ function App() {
     dataString = dataString.split("* ");
     dataString = dataString.map((item) => item.trim());
     console.log(dataString);
-    if (!question.trim()) return;
 
-    setResult([
-      ...result,
-      { type: "q", text: question?question:selectedHistory },
-      { type: "a", text: dataString },
-    ]);
+    setResult([...result,{ type: "q", text: question?question:selectedHistory },{ type: "a", text: dataString },]);
     setQuestion("");
   };
 
@@ -69,7 +65,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(selectedHistory);
     askQuestion();
   }, [selectedHistory]);
 
