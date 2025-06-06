@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import { URL } from "../src/constant";
 import Answer from "../src/components/Answer";
+import RecentSearch from "./components/RecentSearch";
 
 function App() {
   const [question, setQuestion] = useState("");
@@ -66,10 +67,7 @@ function App() {
     setLoader(false);
   };
 
-  const clearHistory = () => {
-    localStorage.clear();
-    setRecentHistory("");
-  };
+ 
 
   const isEnter = () => {
     if (event.key === "Enter") {
@@ -83,33 +81,7 @@ function App() {
 
   return (
     <div className="grid grid-cols-5 h-screen text-center">
-      <div className="col-span-1 bg-zinc-800">
-        <h1 className="pt-5 text-white text-xl flex text-center justify-center">
-          <span>Recent Search</span>
-          <button onClick={clearHistory} className="cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 -960 960 960"
-              width="24px"
-              fill="#e3e3e3"
-            >
-              <path d="m376-300 104-104 104 104 56-56-104-104 104-104-56-56-104 104-104-104-56 56 104 104-104 104 56 56Zm-96 180q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520Zm-400 0v520-520Z" />
-            </svg>
-          </button>
-        </h1>
-        <ul className="overflow-auto text-left mx-2 p-2">
-          {recentHistory &&
-            recentHistory.map((item) => (
-              <li
-                onClick={() => setSelectedHistory(item)}
-                className="p-1z pl-5 truncate text-zinc-400 cursor-pointer hover:bg-zinc-700 hover:text-zinc-300"
-              >
-                {item}
-              </li>
-            ))}
-        </ul>
-      </div>
+      <RecentSearch recentHistory={recentHistory} setRecentHistory={setRecentHistory} setSelectedHistory={setSelectedHistory}/>
       <div className="col-span-4 p-10">
         <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-700 to-violet-700"
         >Hello User,Ask me Anything</h1>
@@ -117,7 +89,7 @@ function App() {
           <div role="status">
             <svg
               aria-hidden="true"
-              class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
+              className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-purple-600"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -131,7 +103,7 @@ function App() {
                 fill="currentFill"
               />
             </svg>
-            <span class="sr-only">Loading...</span>
+            <span className="sr-only">Loading...</span>
           </div>
         ) : null}
 
