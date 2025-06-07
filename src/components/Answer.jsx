@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { checkHeading, replaceHeadingStarts } from "../hepler";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { dark } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import ReactMarkdown from 'react-markdown'
 
 const Answer = ({ ans, totalResult,index,type }) => {
   const [heading, setHeading] = useState(false);
@@ -13,6 +16,25 @@ const Answer = ({ ans, totalResult,index,type }) => {
   }, []);
   console.log(ans);
 
+  const renderer={
+    code({node,inline,className,children,...props}){
+      const match= /language-(\w+)/.exec(className || '');
+      return !inline &&match?(
+        <SyntaxHighlighter
+        {...props}
+        children={String(children).replace(/n$/,'')}
+        language={match[1]}
+        style={dark}
+        PreTag="div"
+        />
+      ):(
+        <code {...props} className={className}>
+          {children}
+        </code>
+      )
+    }
+  }
+
   return (
     <>
       {index===0 && totalResult > 1 ? (
@@ -21,7 +43,7 @@ const Answer = ({ ans, totalResult,index,type }) => {
         <span className="pt-2 text-lg block text-white">{answer}</span>
       ) : (
         <span className={type=='q'?'pl-1':'pl-5'}>
-          <ReactMarkdown>{answer}</ReactMarkdown>
+          <ReactMarkdown components={renderer}>{answer}</ReactMarkdown>
           </span>
       )}
     </>
