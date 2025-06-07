@@ -7,10 +7,10 @@ function RecentSearch({recentHistory,setRecentHistory,setSelectedHistory}) {
 
   return (
     <>
-      <div className="col-span-1 bg-zinc-800">
-        <h1 className="pt-5 text-white text-xl flex text-center justify-center">
+      <div className="col-span-1 dark:bg-zinc-800 bg-red-300">
+        <h1 className="pt-5 dark:text-white text-zinc-800 text-xl flex text-center justify-center">
           <span>Recent Search</span>
-          <button onClick={clearHistory} className="cursor-pointer">
+          <button onClick={clearHistory} className="cursor-pointer ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"
@@ -25,7 +25,7 @@ function RecentSearch({recentHistory,setRecentHistory,setSelectedHistory}) {
         <ul className="overflow-auto text-left mx-2 p-2">
           {
           recentHistory && recentHistory.map((item , index) => (
-              <li key={index} onClick={() => setSelectedHistory(item)}className="p-2 pl-5 truncate rounded-3xl text-zinc-400 cursor-pointer hover:bg-zinc-700 hover:text-zinc-300">{item}</li>
+              <li key={index} onClick={() => setSelectedHistory(item)}className="p-2  pl-5 truncate rounded-3xl dark:text-zinc-400 text-zinc-700 cursor-pointer dark:hover:bg-zinc-700 dark:hover:text-zinc-300 hover:bg-red-200 hover:text-zinc-800">{item}</li>
             ))}
         </ul>
       </div>

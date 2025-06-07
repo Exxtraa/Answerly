@@ -79,8 +79,24 @@ function App() {
     askQuestion();
   }, [selectedHistory]);
 
+  //Dark mode
+  const [darkMode,setDarkMode] = useState('dark');
+
+  useEffect(()=>{
+    if(darkMode=='dark'){
+      document.documentElement.classList.add('dark');
+    }else{
+       document.documentElement.classList.remove('dark');
+    }
+  },[darkMode])
+
   return (
+    <div className={darkMode=='dark'?'dark':'light'}>
     <div className="grid grid-cols-5 h-screen text-center">
+      <select onChange={(e)=>setDarkMode(e.target.value)} className="fixed text-white bottom-0 p-5">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+      </select>
       <RecentSearch recentHistory={recentHistory} setRecentHistory={setRecentHistory} setSelectedHistory={setSelectedHistory}/>
       <div className="col-span-4 p-10">
         <h1 className="text-4xl bg-clip-text text-transparent bg-gradient-to-r from-pink-700 to-violet-700"
@@ -108,7 +124,7 @@ function App() {
         ) : null}
 
         <div ref={scrollToAns} className="container h-143 overflow-x-hidden">
-          <div className="text-zinc-300">
+          <div className="dark:text-zinc-300 text-zinc-800">
             <ul>
               {result.map((item, index) => (
                 <div
@@ -117,7 +133,7 @@ function App() {
                 >
                   {item.type == "q" ? (
                     <li
-                      className="text-right p-1 border-8 bg-zinc-700 border-zinc-700 rounded-tl-3xl rounded-br-3xl w-fit rounded-bl-3xl "
+                      className="text-right p-1 border-8 dark:bg-zinc-700 dark:border-zinc-700 bg-red-300 border-red-300 rounded-tl-3xl rounded-br-3xl w-fit rounded-bl-3xl "
                       key={index + Math.random()}
                     >
                       <Answer
@@ -154,7 +170,7 @@ function App() {
             </ul> */}
           </div>
         </div>
-        <div className="bg-zinc-800 w-1/2 pr-9 text-white m-auto rounded-4xl border border-zinc-500 flex h-16">
+        <div className="dark:bg-zinc-800 w-1/2 pr-9 dark:text-white text-zinc-800 m-auto rounded-4xl border border-zinc-500 flex h-16">
           <input
             type="text"
             value={question}
@@ -176,6 +192,7 @@ function App() {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }
